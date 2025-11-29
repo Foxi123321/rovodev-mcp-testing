@@ -32,21 +32,30 @@ Adds powerful automated testing capabilities to RovoDev:
 
 ### Installation (Windows)
 
-**Option 1: Auto-Installer (Recommended)**
+**Option 1: Download Package (Recommended)**
 
-1. Download [RovoDev-MCP-Installer.exe](https://github.com/YOUR_USERNAME/rovodev-mcp-testing/releases)
-2. Run the installer
-3. Start RovoDev: `acli rovodev run`
+1. Download [RovoDev_MCP_Testing_Package.zip](https://github.com/YOUR_USERNAME/rovodev-mcp-testing/releases/latest)
+2. Extract to `C:\Users\YOUR_USERNAME\.rovodev\`
+3. Run `INSTALL.bat`
+4. Start RovoDev: `acli rovodev run`
 
-**Option 2: Manual Installation**
+**Option 2: Clone from GitHub**
 
 ```bash
 # Clone the repository
 git clone https://github.com/YOUR_USERNAME/rovodev-mcp-testing.git
 cd rovodev-mcp-testing
 
-# Run the setup script
-setup.bat
+# Copy files to .rovodev folder
+xcopy /E /I mcp_testing_server "%USERPROFILE%\.rovodev\mcp_testing_server"
+copy mcp.json "%USERPROFILE%\.rovodev\"
+copy config.yml "%USERPROFILE%\.rovodev\"
+
+# Install dependencies
+cd %USERPROFILE%\.rovodev\mcp_testing_server
+pip install -r requirements.txt
+patchright install chromium
+ollama pull llava:7b
 
 # Start RovoDev
 acli rovodev run
