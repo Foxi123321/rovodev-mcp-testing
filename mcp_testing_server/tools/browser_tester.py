@@ -52,13 +52,18 @@ class BrowserTester:
     
     async def navigate(self, url: str) -> Dict[str, Any]:
         """Navigate to a URL."""
-        # Auto-initialize if browser not ready
-        if not self.page or not self.browser:
-            init_result = await self.initialize()
-            if init_result.get("status") == "error":
-                return init_result
-        
         try:
+            # Auto-initialize if browser not ready
+            if not self.page or not self.browser or not self.context:
+                print("Browser not initialized, initializing now...")
+                init_result = await self.initialize()
+                if init_result.get("status") == "error":
+                    return init_result
+            
+            # Double check page is valid
+            if not self.page:
+                return {"status": "error", "message": "Failed to initialize browser page"}
+            
             self.console_logs = []  # Clear previous logs
             response = await self.page.goto(url, timeout=self.config['browser']['timeout'])
             
@@ -69,7 +74,19 @@ class BrowserTester:
                 "title": await self.page.title()
             }
         except Exception as e:
-            return {"status": "error", "message": str(e)}
+            # If navigation fails, try reinitializing
+            try:
+                print(f"Navigation error: {e}, attempting to reinitialize...")
+                await self.initialize()
+                response = await self.page.goto(url, timeout=self.config['browser']['timeout'])
+                return {
+                    "status": "success",
+                    "url": url,
+                    "status_code": response.status if response else None,
+                    "title": await self.page.title()
+                }
+            except Exception as e2:
+                return {"status": "error", "message": f"Navigation failed: {str(e2)}"}
     
     async def click_element(self, selector: str) -> Dict[str, Any]:
         """Click an element by CSS selector."""
