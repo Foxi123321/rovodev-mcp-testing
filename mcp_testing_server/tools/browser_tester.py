@@ -21,15 +21,20 @@ class BrowserTester:
     
     async def initialize(self):
         """Initialize Patchright browser."""
+        print("[DEBUG] initialize() called")
         try:
             from patchright.async_api import async_playwright
+            print("[DEBUG] Starting playwright...")
             self.playwright = await async_playwright().start()
+            print("[DEBUG] Launching browser...")
             self.browser = await self.playwright.chromium.launch(
                 headless=self.config['browser']['headless']
             )
+            print("[DEBUG] Creating context...")
             self.context = await self.browser.new_context(
                 viewport=self.config['browser']['viewport']
             )
+            print("[DEBUG] Creating page...")
             self.page = await self.context.new_page()
             
             # Capture console logs
@@ -183,20 +188,29 @@ class BrowserTester:
     
     async def restart(self):
         """Restart the browser (close and reinitialize)."""
+        print("[DEBUG] restart() called")
         try:
             # Close existing browser
             if self.browser:
+                print("[DEBUG] Closing existing browser...")
                 await self.browser.close()
             if hasattr(self, 'playwright') and self.playwright:
+                print("[DEBUG] Stopping playwright...")
                 await self.playwright.stop()
             
             # Reset state
+            print("[DEBUG] Resetting state to None...")
             self.browser = None
             self.context = None
             self.page = None
             self.console_logs = []
             
             # Reinitialize
-            return await self.initialize()
+            print("[DEBUG] Calling initialize()...")
+            result = await self.initialize()
+            print(f"[DEBUG] Initialize returned: {result}")
+            print(f"[DEBUG] After init: browser={self.browser is not None}, page={self.page is not None}")
+            return result
         except Exception as e:
+            print(f"[DEBUG] restart() error: {e}")
             return {"status": "error", "message": str(e)}
