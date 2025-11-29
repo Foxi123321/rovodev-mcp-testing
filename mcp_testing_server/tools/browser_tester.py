@@ -10,11 +10,19 @@ from datetime import datetime
 class BrowserTester:
     """Controls browser for testing websites and web apps."""
     
+    # Class-level variables to persist across calls
+    _shared_browser = None
+    _shared_context = None
+    _shared_page = None
+    _shared_playwright = None
+    
     def __init__(self, config: Dict[str, Any]):
         self.config = config
-        self.browser = None
-        self.context = None
-        self.page = None
+        # Use class-level shared instances
+        self.browser = BrowserTester._shared_browser
+        self.context = BrowserTester._shared_context
+        self.page = BrowserTester._shared_page
+        self.playwright = BrowserTester._shared_playwright
         self.console_logs = []
         self.screenshots_dir = Path(config['screenshots']['path'])
         self.screenshots_dir.mkdir(exist_ok=True)
@@ -36,6 +44,12 @@ class BrowserTester:
             )
             print("[DEBUG] Creating page...")
             self.page = await self.context.new_page()
+            
+            # Update class-level shared instances
+            BrowserTester._shared_browser = self.browser
+            BrowserTester._shared_context = self.context
+            BrowserTester._shared_page = self.page
+            BrowserTester._shared_playwright = self.playwright
             
             # Capture console logs
             self.page.on('console', lambda msg: self.console_logs.append({
