@@ -1,0 +1,16 @@
+{
+  "mcpServers": {
+    "atlassian": {
+      "command": "mcp-atlassian",
+      "args": [],
+      "env": {}
+    },
+    "testing-review-server": {
+      "command": "C:\\Users\\ggfuc\\AppData\\Local\\Programs\\Python\\Python313\\python.exe",
+      "args": [
+        "C:\\Users\\ggfuc\\.rovodev\\mcp_testing_server\\server.py"
+      ],
+      "env": {}
+    }
+  }
+}

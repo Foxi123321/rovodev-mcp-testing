@@ -1,0 +1,42 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+env/
+*.egg-info/
+dist/
+build/
+
+# MCP Testing Server
+mcp_testing_server/screenshots/
+*.log
+
+# RovoDev
+sessions/
+rovodev.log
+rex_server_status.json
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Temp files
+tmp_*
+*.tmp
+*.bak
+*.backup
+
+# Build artifacts
+*.exe
+*.zip
+RovoDev_MCP_Testing_Package/
