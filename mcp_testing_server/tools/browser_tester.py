@@ -90,20 +90,26 @@ class BrowserTester:
     
     async def click_element(self, selector: str) -> Dict[str, Any]:
         """Click an element by CSS selector."""
+        # Debug logging
+        print(f"[DEBUG] click_element called. browser={self.browser is not None}, page={self.page is not None}")
+        
         if not self.page or not self.browser:
-            return {"status": "error", "message": "Browser not initialized - call browser_navigate first"}
+            return {
+                "status": "error", 
+                "message": f"Browser not ready - browser={self.browser is not None}, page={self.page is not None}"
+            }
         
         try:
             await self.page.wait_for_selector(selector, timeout=5000)
             await self.page.click(selector)
             return {"status": "success", "selector": selector}
         except Exception as e:
-            return {"status": "error", "message": str(e), "selector": selector}
+            return {"status": "error", "message": f"Click failed: {str(e)}", "selector": selector}
     
     async def fill_input(self, selector: str, value: str) -> Dict[str, Any]:
         """Fill an input field."""
-        if not self.page:
-            return {"status": "error", "message": "Browser not initialized"}
+        if not self.page or not self.browser:
+            return {"status": "error", "message": "Browser not ready - call browser_navigate or browser_restart first"}
         
         try:
             await self.page.wait_for_selector(selector, timeout=5000)
@@ -114,8 +120,14 @@ class BrowserTester:
     
     async def get_screenshot(self, name: Optional[str] = None) -> Dict[str, Any]:
         """Capture a screenshot."""
-        if not self.page:
-            return {"status": "error", "message": "Browser not initialized"}
+        # Debug logging
+        print(f"[DEBUG] get_screenshot called. browser={self.browser is not None}, page={self.page is not None}")
+        
+        if not self.page or not self.browser:
+            return {
+                "status": "error", 
+                "message": f"Browser not ready - browser={self.browser is not None}, page={self.page is not None}"
+            }
         
         try:
             if not name:
@@ -130,7 +142,7 @@ class BrowserTester:
                 "name": name
             }
         except Exception as e:
-            return {"status": "error", "message": str(e)}
+            return {"status": "error", "message": f"Screenshot failed: {str(e)}"}
     
     async def get_console_errors(self) -> Dict[str, Any]:
         """Get console logs and errors."""
@@ -145,8 +157,8 @@ class BrowserTester:
     
     async def evaluate_js(self, script: str) -> Dict[str, Any]:
         """Execute JavaScript in the page."""
-        if not self.page:
-            return {"status": "error", "message": "Browser not initialized"}
+        if not self.page or not self.browser:
+            return {"status": "error", "message": "Browser not ready - call browser_navigate or browser_restart first"}
         
         try:
             result = await self.page.evaluate(script)
