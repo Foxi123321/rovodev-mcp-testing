@@ -52,8 +52,11 @@ class BrowserTester:
     
     async def navigate(self, url: str) -> Dict[str, Any]:
         """Navigate to a URL."""
-        if not self.page:
-            await self.initialize()
+        # Auto-initialize if browser not ready
+        if not self.page or not self.browser:
+            init_result = await self.initialize()
+            if init_result.get("status") == "error":
+                return init_result
         
         try:
             self.console_logs = []  # Clear previous logs
@@ -70,8 +73,8 @@ class BrowserTester:
     
     async def click_element(self, selector: str) -> Dict[str, Any]:
         """Click an element by CSS selector."""
-        if not self.page:
-            return {"status": "error", "message": "Browser not initialized"}
+        if not self.page or not self.browser:
+            return {"status": "error", "message": "Browser not initialized - call browser_navigate first"}
         
         try:
             await self.page.wait_for_selector(selector, timeout=5000)
