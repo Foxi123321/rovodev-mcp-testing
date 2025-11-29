@@ -138,6 +138,14 @@ async def list_tools() -> list[Tool]:
                 "properties": {}
             }
         ),
+        Tool(
+            name="browser_restart",
+            description="Restart the browser (useful when context crashes or needs refresh)",
+            inputSchema={
+                "type": "object",
+                "properties": {}
+            }
+        ),
         
         # Image Analysis Tools
         Tool(
@@ -306,6 +314,9 @@ async def call_tool(name: str, arguments: Any) -> list[TextContent]:
         
         elif name == "browser_close":
             result = await browser_tester.close()
+        
+        elif name == "browser_restart":
+            result = await browser_tester.restart()
         
         # Image Analysis Tools
         elif name == "analyze_screenshot":

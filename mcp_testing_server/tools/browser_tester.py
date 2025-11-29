@@ -141,4 +141,30 @@ class BrowserTester:
         if hasattr(self, 'playwright'):
             await self.playwright.stop()
         
+        # Reset state
+        self.browser = None
+        self.context = None
+        self.page = None
+        self.console_logs = []
+        
         return {"status": "closed"}
+    
+    async def restart(self):
+        """Restart the browser (close and reinitialize)."""
+        try:
+            # Close existing browser
+            if self.browser:
+                await self.browser.close()
+            if hasattr(self, 'playwright') and self.playwright:
+                await self.playwright.stop()
+            
+            # Reset state
+            self.browser = None
+            self.context = None
+            self.page = None
+            self.console_logs = []
+            
+            # Reinitialize
+            return await self.initialize()
+        except Exception as e:
+            return {"status": "error", "message": str(e)}
