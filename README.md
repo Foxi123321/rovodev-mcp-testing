@@ -45,10 +45,11 @@ Six production-ready MCP servers that extend RovoDev:
 - **Desktop Automation** - Test desktop applications
 
 ### 🧪 mcp_deep_learning_v2
-- **Code Indexing** - Advanced semantic code search
+- **Code Indexing** - Advanced semantic code search with Qwen
 - **Pattern Recognition** - ML-powered code understanding
 - **Consensus Engine** - Multi-model verification
 - **Vector Store** - Fast similarity search
+- **Note**: Requires `qwen2.5-coder:7b` or `qwen3-coder:30b` (configurable)
 
 **💯 Local & Free** - No API costs, unlimited usage, 100% private
 
@@ -62,6 +63,19 @@ Six production-ready MCP servers that extend RovoDev:
 - [Ollama](https://ollama.com) installed
 - Python 3.8+ with pip
 
+### System Requirements
+
+**Minimum (for basic features)**:
+- 8GB RAM
+- 10GB disk space
+- CPU: 4+ cores recommended
+
+**Recommended (for all AI models)**:
+- 16GB RAM (for qwen3-coder:30b)
+- 20GB disk space (AI models are large)
+- CPU: 8+ cores for better performance
+- GPU: Optional but speeds up Ollama significantly
+
 ### Installation (Windows)
 
 **Option 1: Download Package (Recommended)**
@@ -70,9 +84,14 @@ Six production-ready MCP servers that extend RovoDev:
 2. Extract to `C:\Users\YOUR_USERNAME\.rovodev\`
 3. Open PowerShell in the folder
 4. Install: `pip install -r mcp_knowledge_db/requirements.txt`
-5. Pull AI models: `ollama pull gemma2:9b` and `ollama pull llava:7b`
+5. Pull AI models: 
+   - `ollama pull gemma2:9b` (Knowledge DB AI curator)
+   - `ollama pull llava:7b` (Vision analysis)
+   - `ollama pull qwen2.5-coder:7b` (Deep learning code analysis - lightweight)
+   - *Optional*: `ollama pull qwen3-coder:30b` (more powerful but requires 16GB+ RAM)
 6. Configure in RovoDev's `mcp.json` (see examples in each server folder)
-7. Start RovoDev: `acli rovodev run`
+7. **Optional**: Update `mcp_deep_learning_v2/config.py` to use different Qwen models
+8. Start RovoDev: `acli rovodev run`
 
 **Option 2: Clone from GitHub**
 
@@ -90,8 +109,12 @@ pip install -r mcp_testing_server/requirements.txt
 pip install -r mcp_deep_learning_v2/requirements.txt
 
 # Pull required Ollama models
-ollama pull gemma2:9b
-ollama pull llava:7b
+ollama pull gemma2:9b          # For mcp_knowledge_db
+ollama pull llava:7b            # For mcp_vision_simple
+ollama pull qwen2.5-coder:7b    # For mcp_deep_learning_v2 (lightweight)
+
+# Optional: More powerful model (requires 16GB+ RAM)
+# ollama pull qwen3-coder:30b
 
 # Configure MCP servers in RovoDev
 # Add server configs to ~/.rovodev/mcp.json
@@ -206,6 +229,7 @@ Remove the "AUTO-TESTING PROTOCOL" section from `~/.rovodev/config.yml`
 - 🔧 **Fixed**: Removed print statements and StreamHandler logging from servers
 - ✅ **Improved**: All servers now output clean JSON-RPC messages only
 - 📝 **Changed**: Logs now go to dedicated log files instead of stdout
+- 📝 **Updated**: Added qwen2.5-coder requirement and system requirements documentation
 
 ### v1.0.0 - 2024-12-14
 - 🚀 Initial release with 6 MCP servers
