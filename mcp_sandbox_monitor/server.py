@@ -4,6 +4,8 @@ Provides process monitoring and auto-response capabilities to RovoDev/Rex
 """
 import asyncio
 import json
+import logging
+from pathlib import Path
 from typing import Any, Optional
 from mcp.server import Server
 from mcp.types import Tool, TextContent, ImageContent, EmbeddedResource
@@ -12,6 +14,18 @@ from process_monitor import ProcessMonitor
 from interactive_controller import InteractiveController
 from ai_decision_engine import AIDecisionEngine
 from knowledge_db_interface import KnowledgeDBInterface
+
+# Setup logging - only to file, not stdout (MCP protocol requires clean stdout)
+LOG_DIR = Path(__file__).parent / "logs"
+LOG_DIR.mkdir(exist_ok=True)
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+    handlers=[
+        logging.FileHandler(LOG_DIR / "sandbox_monitor.log")
+    ]
+)
+logger = logging.getLogger(__name__)
 
 # Initialize server
 app = Server("sandbox-monitor")
@@ -478,7 +492,6 @@ async def main():
     from mcp.server.stdio import stdio_server
     
     async with stdio_server() as (read_stream, write_stream):
-        print("🤖 Sandbox Monitor MCP Server started", flush=True)
         await app.run(read_stream, write_stream, app.create_initialization_options())
 
 if __name__ == "__main__":

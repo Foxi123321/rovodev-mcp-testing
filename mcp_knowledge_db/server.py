@@ -21,13 +21,12 @@ from models import (
 )
 from config import DB_PATH, LOG_LEVEL, LOG_FILE
 
-# Setup logging
+# Setup logging - only to file, not stdout (MCP protocol requires clean stdout)
 logging.basicConfig(
     level=LOG_LEVEL,
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
     handlers=[
-        logging.FileHandler(LOG_FILE),
-        logging.StreamHandler()
+        logging.FileHandler(LOG_FILE)
     ]
 )
 logger = logging.getLogger(__name__)
