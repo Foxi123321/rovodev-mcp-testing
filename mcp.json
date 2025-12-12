@@ -11,6 +11,56 @@
         "C:\\Users\\ggfuc\\.rovodev\\mcp_testing_server\\server.py"
       ],
       "env": {}
+    },
+    "rex-unstoppable-browser": {
+      "command": "C:\\Users\\ggfuc\\AppData\\Local\\Programs\\Python\\Python313\\python.exe",
+      "args": [
+        "C:\\Users\\ggfuc\\.rovodev\\mcp_unstoppable_browser\\server.py"
+      ],
+      "env": {}
+    },
+    "vision-server-simple": {
+      "command": "C:\\Users\\ggfuc\\AppData\\Local\\Programs\\Python\\Python313\\python.exe",
+      "env": {},
+      "args": [
+        "C:\\Users\\ggfuc\\.rovodev\\mcp_vision_simple\\server.py"
+      ]
+    },
+    "deep-learning-intelligence": {
+      "command": "C:\\Users\\ggfuc\\AppData\\Local\\Programs\\Python\\Python313\\python.exe",
+      "args": [
+        "C:\\Users\\ggfuc\\.rovodev\\mcp-servers\\deep-learning-intelligence\\server.py"
+      ],
+      "env": {
+        "PYTHONPATH": "C:\\Users\\ggfuc\\.rovodev\\mcp-servers\\deep-learning-intelligence"
+      }
+    },
+    "deep-learning-v2": {
+      "command": "C:\\Users\\ggfuc\\AppData\\Local\\Programs\\Python\\Python313\\python.exe",
+      "args": [
+        "C:\\Users\\ggfuc\\.rovodev\\mcp_deep_learning_v2\\server.py"
+      ],
+      "env": {
+        "PYTHONPATH": "C:\\Users\\ggfuc\\.rovodev\\mcp_deep_learning_v2",
+        "OLLAMA_BASE_URL": "http://localhost:11434"
+      }
+    },
+    "knowledge-database": {
+      "command": "C:\\Users\\ggfuc\\AppData\\Local\\Programs\\Python\\Python313\\python.exe",
+      "args": [
+        "C:\\Users\\ggfuc\\.rovodev\\mcp_knowledge_db\\server.py"
+      ],
+      "env": {
+        "PYTHONPATH": "C:\\Users\\ggfuc\\.rovodev\\mcp_knowledge_db",
+        "OLLAMA_BASE_URL": "http://localhost:11434"
+      }
+    },
+    "sandbox-monitor": {
+      "command": "C:\\Users\\ggfuc\\AppData\\Local\\Programs\\Python\\Python313\\python.exe",
+      "args": [
+        "C:\\Users\\ggfuc\\.rovodev\\mcp_sandbox_monitor\\server.py"
+      ],
+      "env": {}
     }
   }
 }
