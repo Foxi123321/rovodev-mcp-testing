@@ -1,24 +1,56 @@
-# 🔥 RovoDev MCP Testing Server
+# 🔥 RovoDev MCP Testing Package
 
-**Automated AI-powered code review, browser testing, and visual analysis for Atlassian RovoDev CLI**
+**Complete MCP server suite for RovoDev: Knowledge DB, Browser Automation, Vision AI, Sandbox Monitoring, and Deep Learning Intelligence**
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
 [![Ollama](https://img.shields.io/badge/Ollama-Required-green.svg)](https://ollama.com)
+[![Release](https://img.shields.io/github/v/release/Foxi123321/rovodev-mcp-testing)](https://github.com/Foxi123321/rovodev-mcp-testing/releases)
 
-> Transform RovoDev from a code generator into a fully autonomous development system with automated testing, browser automation, and AI-powered visual analysis.
+> 6 powerful MCP servers that supercharge RovoDev with autonomous testing, knowledge management, browser automation, and AI-powered analysis.
 
 ---
 
 ## 🎯 What This Does
 
-Adds powerful automated testing capabilities to RovoDev:
+Six production-ready MCP servers that extend RovoDev:
 
-- **🔍 Code Review** - Static analysis for bugs, security issues, and code smells
-- **🌐 Browser Automation** - Automated testing with Patchright (undetectable)
-- **📸 Screenshot Analysis** - LLaVA vision AI analyzes UI/UX
-- **🤖 Auto-Testing** - RovoDev automatically tests everything it builds
-- **💯 Local & Free** - No API costs, unlimited usage, 100% private
+### 🧠 mcp_knowledge_db
+- **Code Intelligence** - Store and query code patterns, functions, classes
+- **Command Baselines** - Track execution patterns and performance
+- **Error Solutions** - Learn from past errors and suggest fixes
+- **AI Curator** - Gemma AI manages and optimizes the knowledge base
+
+### 🤖 mcp_sandbox_monitor
+- **Process Monitoring** - Track running processes and detect stuck states
+- **Auto-Response** - Automatically answer prompts in interactive scripts
+- **AI Decision Engine** - Learn from past decisions
+- **Background Daemon** - Autonomous monitoring without user intervention
+
+### 🌐 mcp_unstoppable_browser
+- **Cloudflare Bypass** - FlareSolverr integration for protected sites
+- **Session Management** - Persistent browser sessions with cookies
+- **Data Extraction** - CSS selector-based scraping
+- **JavaScript Execution** - Run custom scripts in browser context
+
+### 👁️ mcp_vision_simple
+- **Screenshot Analysis** - LLaVA vision AI analyzes images
+- **Async Processing** - Non-blocking image analysis
+- **UI/UX Detection** - Automated visual problem detection
+
+### 🔍 mcp_testing_server
+- **Code Review** - Static analysis for security and bugs
+- **Browser Testing** - Automated UI testing with Patchright
+- **Visual Analysis** - AI-powered screenshot review
+- **Desktop Automation** - Test desktop applications
+
+### 🧪 mcp_deep_learning_v2
+- **Code Indexing** - Advanced semantic code search
+- **Pattern Recognition** - ML-powered code understanding
+- **Consensus Engine** - Multi-model verification
+- **Vector Store** - Fast similarity search
+
+**💯 Local & Free** - No API costs, unlimited usage, 100% private
 
 ---
 
@@ -34,28 +66,35 @@ Adds powerful automated testing capabilities to RovoDev:
 
 **Option 1: Download Package (Recommended)**
 
-1. Download [RovoDev_MCP_Testing_Package.zip](https://github.com/YOUR_USERNAME/rovodev-mcp-testing/releases/latest)
+1. Download [Latest Release](https://github.com/Foxi123321/rovodev-mcp-testing/releases/latest)
 2. Extract to `C:\Users\YOUR_USERNAME\.rovodev\`
-3. Run `INSTALL.bat`
-4. Start RovoDev: `acli rovodev run`
+3. Open PowerShell in the folder
+4. Install: `pip install -r mcp_knowledge_db/requirements.txt`
+5. Pull AI models: `ollama pull gemma2:9b` and `ollama pull llava:7b`
+6. Configure in RovoDev's `mcp.json` (see examples in each server folder)
+7. Start RovoDev: `acli rovodev run`
 
 **Option 2: Clone from GitHub**
 
 ```bash
 # Clone the repository
-git clone https://github.com/YOUR_USERNAME/rovodev-mcp-testing.git
+git clone https://github.com/Foxi123321/rovodev-mcp-testing.git
 cd rovodev-mcp-testing
 
-# Copy files to .rovodev folder
-xcopy /E /I mcp_testing_server "%USERPROFILE%\.rovodev\mcp_testing_server"
-copy mcp.json "%USERPROFILE%\.rovodev\"
-copy config.yml "%USERPROFILE%\.rovodev\"
+# Install all dependencies
+pip install -r mcp_knowledge_db/requirements.txt
+pip install -r mcp_sandbox_monitor/requirements.txt
+pip install -r mcp_unstoppable_browser/requirements.txt
+pip install -r mcp_vision_simple/requirements.txt
+pip install -r mcp_testing_server/requirements.txt
+pip install -r mcp_deep_learning_v2/requirements.txt
 
-# Install dependencies
-cd %USERPROFILE%\.rovodev\mcp_testing_server
-pip install -r requirements.txt
-patchright install chromium
+# Pull required Ollama models
+ollama pull gemma2:9b
 ollama pull llava:7b
+
+# Configure MCP servers in RovoDev
+# Add server configs to ~/.rovodev/mcp.json
 
 # Start RovoDev
 acli rovodev run
@@ -157,6 +196,25 @@ Remove the "AUTO-TESTING PROTOCOL" section from `~/.rovodev/config.yml`
    │  Automation   │   │  Vision AI      │
    └───────────────┘   └─────────────────┘
 ```
+
+---
+
+## 📋 Changelog
+
+### v1.0.1 (Latest) - 2024-12-15
+- 🐛 **Fixed**: MCP servers stdout pollution causing JSON-RPC parsing errors
+- 🔧 **Fixed**: Removed print statements and StreamHandler logging from servers
+- ✅ **Improved**: All servers now output clean JSON-RPC messages only
+- 📝 **Changed**: Logs now go to dedicated log files instead of stdout
+
+### v1.0.0 - 2024-12-14
+- 🚀 Initial release with 6 MCP servers
+- 🧠 Knowledge Database with AI curator
+- 🤖 Sandbox Monitor with auto-response
+- 🌐 Unstoppable Browser with Cloudflare bypass
+- 👁️ Vision AI with LLaVA integration
+- 🔍 Testing Server with browser automation
+- 🧪 Deep Learning Intelligence engine
 
 ---
 
