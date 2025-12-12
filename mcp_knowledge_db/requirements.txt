@@ -1,0 +1,15 @@
+# Knowledge Database MCP Server Requirements
+
+# Core
+mcp>=1.0.0
+python-dateutil>=2.8.2
+
+# AI Curator
+requests>=2.31.0
+
+# System monitoring (for future Sandbox Monitor integration)
+psutil>=5.9.0
+
+# Optional: Semantic search with embeddings (Phase 2)
+# sentence-transformers>=2.2.0
+# faiss-cpu>=1.7.4

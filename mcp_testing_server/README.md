@@ -21,7 +21,7 @@ This MCP server gives AI models the ability to:
 ```bash
 cd mcp_testing_server
 pip install -r requirements.txt
-patchright install chromium
+playwright install chromium
 ```
 
 ### 2. Test the Server
@@ -82,7 +82,7 @@ mcp_testing_server/
 ├── requirements.txt       # Dependencies
 ├── tools/
 │   ├── code_reviewer.py   # Code analysis
-│   ├── browser_tester.py  # Patchright automation
+│   ├── browser_tester.py  # Playwright automation
 │   └── app_tester.py      # Desktop testing (future)
 └── screenshots/           # Captured screenshots
 ```

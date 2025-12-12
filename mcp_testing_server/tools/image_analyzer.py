@@ -1,8 +1,12 @@
 """Image analysis tools for screenshot review."""
+import asyncio
 import subprocess
 import json
+import re
+import uuid
 from pathlib import Path
 from typing import Dict, Any, Optional
+from datetime import datetime
 
 
 class ImageAnalyzer:
@@ -11,6 +15,7 @@ class ImageAnalyzer:
     def __init__(self):
         self.vision_model = None
         self._check_available_models()
+        self.jobs = {}  # Track async jobs
     
     def _check_available_models(self):
         """Check which vision models are available."""
@@ -34,8 +39,63 @@ class ImageAnalyzer:
         except Exception:
             pass
     
-    def analyze_screenshot(self, image_path: str, prompt: Optional[str] = None) -> Dict[str, Any]:
-        """Analyze a screenshot using a vision model."""
+    def _clean_output(self, text: str) -> str:
+        """Remove ANSI escape codes and other noise from output."""
+        # Remove ANSI escape codes
+        ansi_escape = re.compile(r'\x1B(?:[@-Z\\-_]|\[[0-?]*[ -/]*[@-~])')
+        text = ansi_escape.sub('', text)
+        
+        # Remove progress indicators and other noise
+        text = re.sub(r'\[?\?\d+[hl]', '', text)
+        text = re.sub(r'\[\d+G', '', text)
+        text = re.sub(r'\[K', '', text)
+        text = re.sub(r'⠙|⠹|⠸|⠼|⠴|⠦|⠧|⠇|⠋', '', text)
+        
+        # Remove "Added image" line
+        lines = text.split('\n')
+        lines = [l for l in lines if not l.strip().startswith('Added image')]
+        
+        return '\n'.join(lines).strip()
+    
+    async def _run_analysis(self, job_id: str, image_path: str, prompt: str):
+        """Run analysis in background."""
+        try:
+            ollama_path = r"C:\Users\ggfuc\AppData\Local\Programs\Ollama\ollama.exe"
+            
+            process = await asyncio.create_subprocess_exec(
+                ollama_path, "run", self.vision_model, prompt, image_path,
+                stdout=asyncio.subprocess.PIPE,
+                stderr=asyncio.subprocess.PIPE
+            )
+            
+            stdout, stderr = await process.communicate()
+            cleaned_output = self._clean_output(stdout.decode('utf-8', errors='ignore'))
+            
+            self.jobs[job_id] = {
+                "status": "completed",
+                "result": cleaned_output,
+                "completed_at": datetime.now().isoformat()
+            }
+            
+            # Also save to file for easy retrieval
+            result_file = Path(__file__).parent.parent / "screenshots" / f"analysis_{job_id}.txt"
+            result_file.parent.mkdir(exist_ok=True)
+            result_file.write_text(cleaned_output, encoding='utf-8')
+        except Exception as e:
+            self.jobs[job_id] = {
+                "status": "error",
+                "error": str(e),
+                "completed_at": datetime.now().isoformat()
+            }
+    
+    async def analyze_screenshot(self, image_path: str, prompt: Optional[str] = None, wait: bool = False) -> Dict[str, Any]:
+        """Analyze a screenshot using a vision model.
+        
+        Args:
+            image_path: Path to image
+            prompt: Analysis prompt
+            wait: If True, wait for result. If False, return job_id immediately.
+        """
         if not Path(image_path).exists():
             return {
                 "status": "error",
@@ -57,35 +117,80 @@ class ImageAnalyzer:
 3. Any visual issues (broken layout, missing content, errors)
 4. Overall quality assessment"""
         
-        try:
-            # Call Ollama vision model with image
-            ollama_path = r"C:\Users\ggfuc\AppData\Local\Programs\Ollama\ollama.exe"
-            result = subprocess.run(
-                [ollama_path, "run", self.vision_model, prompt, image_path],
-                capture_output=True,
-                text=True,
-                timeout=60
-            )
-            
-            return {
-                "status": "success",
-                "image": image_path,
-                "model": self.vision_model,
-                "analysis": result.stdout.strip()
-            }
+        # Create job
+        job_id = str(uuid.uuid4())[:8]
+        self.jobs[job_id] = {
+            "status": "running",
+            "started_at": datetime.now().isoformat(),
+            "image": image_path
+        }
         
-        except subprocess.TimeoutExpired:
+        # Start async task
+        task = asyncio.create_task(self._run_analysis(job_id, image_path, prompt))
+        # Keep reference to prevent garbage collection
+        if not hasattr(self, "_tasks"):
+            self._tasks = set()
+        self._tasks.add(task)
+        task.add_done_callback(self._tasks.discard)
+        
+        if wait:
+            # Wait for completion (old behavior)
+            while self.jobs[job_id]["status"] == "running":
+                await asyncio.sleep(0.5)
+            
+            if self.jobs[job_id]["status"] == "completed":
+                return {
+                    "status": "success",
+                    "image": image_path,
+                    "model": self.vision_model,
+                    "analysis": self.jobs[job_id]["result"]
+                }
+            else:
+                return {
+                    "status": "error",
+                    "message": self.jobs[job_id].get("error", "Unknown error")
+                }
+        else:
+            # Return immediately with job ID
             return {
-                "status": "timeout",
-                "message": "Vision model took too long (>60s)"
-            }
-        except Exception as e:
-            return {
-                "status": "error",
-                "message": str(e)
+                "status": "started",
+                "job_id": job_id,
+                "message": f"Analysis started. Use get_analysis_result with job_id={job_id} to check status.",
+                "image": image_path,
+                "model": self.vision_model
             }
     
-    def compare_screenshots(self, image1: str, image2: str) -> Dict[str, Any]:
+    async def get_analysis_result(self, job_id: str) -> Dict[str, Any]:
+        """Get result of a running analysis job."""
+        if job_id not in self.jobs:
+            return {
+                "status": "error",
+                "message": f"Job {job_id} not found"
+            }
+        
+        job = self.jobs[job_id]
+        
+        if job["status"] == "running":
+            return {
+                "status": "running",
+                "job_id": job_id,
+                "message": "Analysis still in progress..."
+            }
+        elif job["status"] == "completed":
+            return {
+                "status": "success",
+                "job_id": job_id,
+                "analysis": job["result"],
+                "completed_at": job["completed_at"]
+            }
+        else:
+            return {
+                "status": "error",
+                "job_id": job_id,
+                "message": job.get("error", "Unknown error")
+            }
+    
+    async def compare_screenshots(self, image1: str, image2: str) -> Dict[str, Any]:
         """Compare two screenshots to find differences."""
         if not self.vision_model:
             return {
@@ -101,29 +206,9 @@ class ImageAnalyzer:
 First image: {image1}
 Second image: {image2}"""
         
-        try:
-            ollama_path = r"C:\Users\ggfuc\AppData\Local\Programs\Ollama\ollama.exe"
-            result = subprocess.run(
-                [ollama_path, "run", self.vision_model, prompt],
-                capture_output=True,
-                text=True,
-                timeout=60
-            )
-            
-            return {
-                "status": "success",
-                "images": [image1, image2],
-                "model": self.vision_model,
-                "comparison": result.stdout.strip()
-            }
-        
-        except Exception as e:
-            return {
-                "status": "error",
-                "message": str(e)
-            }
+        return await self.analyze_screenshot(image1, prompt, wait=True)
     
-    def detect_ui_issues(self, image_path: str) -> Dict[str, Any]:
+    async def detect_ui_issues(self, image_path: str) -> Dict[str, Any]:
         """Specialized check for common UI problems."""
         if not self.vision_model:
             return {
@@ -141,4 +226,4 @@ Second image: {image2}"""
 
 Rate severity: LOW/MEDIUM/HIGH for each issue found."""
         
-        return self.analyze_screenshot(image_path, prompt)
+        return await self.analyze_screenshot(image_path, prompt, wait=False)

@@ -21,7 +21,7 @@ with open(config_path) as f:
 # Initialize server
 app = Server("testing-review-server")
 
-# Initialize tools
+# Initialize tools - keep global instance
 code_reviewer = CodeReviewer()
 browser_tester = BrowserTester(CONFIG)
 app_tester = AppTester()
@@ -167,6 +167,20 @@ async def list_tools() -> list[Tool]:
             }
         ),
         Tool(
+            name="get_analysis_result",
+            description="Get the result of a vision analysis job",
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "job_id": {
+                        "type": "string",
+                        "description": "Job ID returned from analyze_screenshot"
+                    }
+                },
+                "required": ["job_id"]
+            }
+        )
+        ,Tool(
             name="detect_ui_issues",
             description="Check screenshot for common UI/UX problems",
             inputSchema={
@@ -288,7 +302,7 @@ async def call_tool(name: str, arguments: Any) -> list[TextContent]:
         if name == "review_code":
             result = code_reviewer.review_file(arguments["file_path"])
         
-        # Browser Tools
+        # Browser Tools - use global instance
         elif name == "browser_navigate":
             result = await browser_tester.navigate(arguments["url"])
         
@@ -320,13 +334,16 @@ async def call_tool(name: str, arguments: Any) -> list[TextContent]:
         
         # Image Analysis Tools
         elif name == "analyze_screenshot":
-            result = image_analyzer.analyze_screenshot(
+            result = await image_analyzer.analyze_screenshot(
                 arguments["image_path"],
                 arguments.get("prompt")
             )
         
+        
+        elif name == "get_analysis_result":
+            result = await image_analyzer.get_analysis_result(arguments["job_id"])
         elif name == "detect_ui_issues":
-            result = image_analyzer.detect_ui_issues(arguments["image_path"])
+            result = await image_analyzer.detect_ui_issues(arguments["image_path"])
         
         # Desktop App Testing Tools
         elif name == "launch_desktop_app":
