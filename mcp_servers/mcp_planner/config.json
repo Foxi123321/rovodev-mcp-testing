@@ -1,0 +1,13 @@
+{
+  "name": "planner",
+  "version": "1.0.0",
+  "description": "MCP server for intelligent task decomposition and planning",
+  "models": ["qwen2.5-coder:7b", "gemma2:9b"],
+  "features": [
+    "Task decomposition",
+    "Implementation planning",
+    "Complexity estimation",
+    "Dependency analysis",
+    "Optimization suggestions"
+  ]
+}

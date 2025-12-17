@@ -1,0 +1,15 @@
+{
+  "validator": {
+    "model": "qwen3-coder:30b",
+    "ollama_url": "http://localhost:11434",
+    "default_strict_mode": true,
+    "min_passing_score": 80,
+    "timeout_seconds": 120
+  },
+  "validation_rules": {
+    "require_definition_of_done": true,
+    "require_verification_steps": true,
+    "forbid_vague_language": true,
+    "check_tool_availability": true
+  }
+}

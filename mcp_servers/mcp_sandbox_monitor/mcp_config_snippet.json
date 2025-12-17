@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "sandbox-monitor": {
+      "command": "python",
+      "args": [
+        "C:\\Users\\ggfuc\\.rovodev\\mcp_sandbox_monitor\\server.py"
+      ],
+      "env": {}
+    }
+  }
+}

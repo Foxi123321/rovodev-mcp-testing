@@ -1,0 +1,17 @@
+{
+  "auditor": {
+    "model": "qwen3-coder:30b",
+    "ollama_url": "http://localhost:11434",
+    "timeout_seconds": 120,
+    "strict_evidence_mode": true
+  },
+  "audit_rules": {
+    "require_evidence_for_done": true,
+    "block_if_no_artifacts": true,
+    "fail_on_partial_completion": false
+  },
+  "status_thresholds": {
+    "min_done_percentage_for_pass": 100,
+    "allow_non_critical_failures": false
+  }
+}

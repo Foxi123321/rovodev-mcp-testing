@@ -1,0 +1,5 @@
+patchright>=1.56.0
+mcp>=1.0.0
+selenium>=4.35.0
+requests>=2.32.0
+undetected-chromedriver

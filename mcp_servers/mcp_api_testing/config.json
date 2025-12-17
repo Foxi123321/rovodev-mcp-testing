@@ -1,0 +1,16 @@
+{
+  "name": "api-testing",
+  "version": "1.0.0",
+  "description": "MCP server for API schema validation, recording, and replay",
+  "features": [
+    "Record API requests and responses",
+    "Replay recorded calls and compare results",
+    "Validate responses against JSON schemas",
+    "Detect schema drift between API versions",
+    "Filter recordings by tags and methods"
+  ],
+  "storage": {
+    "recordings_dir": "./recordings",
+    "schemas_dir": "./schemas"
+  }
+}

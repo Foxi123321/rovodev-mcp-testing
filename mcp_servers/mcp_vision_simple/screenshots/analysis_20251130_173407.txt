@@ -1,0 +1,17 @@
+﻿ollama.exe : 2025/11/30 17:34:08 WARN Failed to rotate log older=C:\Users\ggfuc\AppData\Local\Ollama\app-1.log 
+newer=C:\Users\ggfuc\AppData\Local\Ollama\app.log error="rename C:\\Users\\ggfuc\\AppData\\Local\\Ollama\\app.log 
+C:\\Users\\ggfuc\\AppData\\Local\\Ollama\\app-1.log: The process cannot access the file because it is being used by 
+another process."
+In Zeile:5 Zeichen:15
++     $output = & $ollamaPath run llava:latest $Prompt $ImagePath 2>&1
++               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (2025/11/30 17:3...other process.":String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+time=2025-11-30T17:34:08.683+01:00 level=INFO source=app_windows.go:272 msg="starting Ollama" 
+app=C:\Users\ggfuc\AppData\Local\Programs\Ollama version=0.12.6 OS=Windows/10.0.19045
+time=2025-11-30T17:34:08.702+01:00 level=INFO source=eventloop.go:324 msg="sent focus request to existing instance"
+time=2025-11-30T17:34:08.702+01:00 level=INFO source=app_windows.go:79 msg="existing instance found and focused, 
+exiting"
+Error: ollama server not responding - timed out waiting for server to start
+

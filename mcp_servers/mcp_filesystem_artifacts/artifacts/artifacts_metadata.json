@@ -1,0 +1,21 @@
+{
+  "artifacts": {
+    "c2c45fda-c63d-4ac7-be26-3bf18d0db660": {
+      "id": "c2c45fda-c63d-4ac7-be26-3bf18d0db660",
+      "type": "log",
+      "original_path": "C:\\Users\\ggfuc\\.rovodev\\mcp_filesystem_artifacts\\test_log.txt",
+      "stored_path": "C:\\Users\\ggfuc\\.rovodev\\mcp_filesystem_artifacts\\artifacts\\logs\\c2c45fda-c63d-4ac7-be26-3bf18d0db660.txt",
+      "file_size": 18,
+      "file_hash": "e72edcb404f504b22a35ffd78cf8ba8ab9d8bfe26c0fa564a9039b19be4cde0b",
+      "timestamp": "2025-12-15T17:39:55.502819",
+      "metadata": {
+        "test_name": "demo_test",
+        "tags": [
+          "test",
+          "demo"
+        ]
+      }
+    }
+  },
+  "bundles": {}
+}

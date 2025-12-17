@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rex Test Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        .container {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 30px;
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+        }
+        h1 {
+            color: #fff;
+            text-align: center;
+            font-size: 2.5em;
+            margin-bottom: 30px;
+        }
+        .button-container {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin: 20px 0;
+        }
+        button {
+            padding: 15px 30px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        #btn-primary {
+            background: #4CAF50;
+            color: white;
+        }
+        #btn-secondary {
+            background: #2196F3;
+            color: white;
+        }
+        #btn-danger {
+            background: #f44336;
+            color: white;
+        }
+        button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+        input {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-radius: 5px;
+            background: rgba(255,255,255,0.1);
+            color: white;
+            font-size: 16px;
+        }
+        input::placeholder {
+            color: rgba(255,255,255,0.7);
+        }
+        #output {
+            margin-top: 20px;
+            padding: 15px;
+            background: rgba(0,0,0,0.2);
+            border-radius: 5px;
+            min-height: 50px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔥 Rex Task Orchestrator Test Page 🔥</h1>
+        
+        <p style="text-align: center; font-size: 1.2em;">
+            This page tests visual validation with AI
+        </p>
+        
+        <div style="margin: 20px 0;">
+            <input type="text" id="username" placeholder="Enter your username">
+            <input type="password" id="password" placeholder="Enter your password">
+        </div>
+        
+        <div class="button-container">
+            <button id="btn-primary" onclick="handleClick('primary')">Login</button>
+            <button id="btn-secondary" onclick="handleClick('secondary')">Sign Up</button>
+            <button id="btn-danger" onclick="handleClick('danger')">Reset</button>
+        </div>
+        
+        <div id="output">
+            <p style="margin: 0;">Click a button to see the output...</p>
+        </div>
+    </div>
+    
+    <script>
+        function handleClick(type) {
+            const output = document.getElementById('output');
+            const username = document.getElementById('username').value;
+            
+            if (type === 'primary') {
+                output.innerHTML = `<p style="margin:0;">✅ Login clicked! User: ${username || 'anonymous'}</p>`;
+            } else if (type === 'secondary') {
+                output.innerHTML = `<p style="margin:0;">📝 Sign Up clicked! User: ${username || 'anonymous'}</p>`;
+            } else if (type === 'danger') {
+                output.innerHTML = `<p style="margin:0;">🔄 Reset clicked! Clearing fields...</p>`;
+                document.getElementById('username').value = '';
+                document.getElementById('password').value = '';
+            }
+        }
+    </script>
+</body>
+</html>

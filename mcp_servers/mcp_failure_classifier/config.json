@@ -1,0 +1,17 @@
+{
+  "classifier": {
+    "model": "gemma2:9b",
+    "ollama_url": "http://localhost:11434",
+    "timeout_seconds": 120
+  },
+  "retry_policy": {
+    "max_retries_default": 3,
+    "retry_transient_errors": true,
+    "retry_deterministic_errors": false
+  },
+  "recovery_rules": {
+    "stop_on_missing_capability": true,
+    "allow_partial_replan": true,
+    "preserve_completed_steps": true
+  }
+}

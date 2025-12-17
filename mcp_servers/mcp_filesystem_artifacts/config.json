@@ -1,0 +1,22 @@
+{
+  "storage": {
+    "base_path": "./artifacts",
+    "max_artifact_size_mb": 100,
+    "max_total_size_gb": 10
+  },
+  "security": {
+    "allowed_paths": [
+      "./artifacts",
+      "./screenshots",
+      "./logs",
+      "./test_results"
+    ],
+    "block_absolute_paths": false,
+    "verify_file_hashes": true
+  },
+  "cleanup": {
+    "auto_cleanup_enabled": false,
+    "cleanup_after_days": 30,
+    "cleanup_types": ["screenshot", "log"]
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "browser": {
+    "headless": false,
+    "timeout": 30000,
+    "viewport": {
+      "width": 1920,
+      "height": 1080
+    },
+    "slowMo": 500
+  },
+  "screenshots": {
+    "path": "./screenshots",
+    "format": "png"
+  },
+  "code_review": {
+    "max_file_size_mb": 5,
+    "check_security": true,
+    "check_performance": true
+  }
+}

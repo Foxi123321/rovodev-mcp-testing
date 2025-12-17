@@ -1,0 +1,12 @@
+{
+  "name": "deployment",
+  "version": "1.0.0",
+  "description": "MCP server for Docker and container management",
+  "features": [
+    "List containers",
+    "Build images",
+    "Run containers",
+    "Container logs",
+    "Docker Compose support"
+  ]
+}
